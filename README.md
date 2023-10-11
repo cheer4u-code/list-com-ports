@@ -1,2 +1,1 @@
-# list-com-ports
-List COM ports
+# Windows COMポートを調べるWSHスクリプト
