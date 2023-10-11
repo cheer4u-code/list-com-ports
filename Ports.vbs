@@ -10,4 +10,4 @@ If ports.Count = 0 Then
 Else
     msg = Join(ports.ToArray(), vbCrLf)
 End If
-Wscript.Echo msg
+MsgBox msg, vbOKOnly + vbInformation, "ポート一覧"
