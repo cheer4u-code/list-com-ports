@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>ポート一覧</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h2>ポート一覧</h2>
+        <!-- プラグ アンド プレイ デバイスのポート一覧 -->
+        <div id="list_of_port"></div>
+        <script language="VBScript">
+            Sub Window_OnLoad
+                Window.ResizeTo 320, 240
+            End Sub
+            Function Escape(str)
+                Dim res
+                res = Replace(str, "&", "&amp;")
+                res = Replace(res, "<", "&lt;")
+                res = Replace(res, ">", "&gt;")
+                Escape = res
+            End Function
+            strComputer = "."
+            Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+            Set colItems = objWMIService.ExecQuery("Select * from Win32_PnPEntity WHERE PNPClass = 'Ports'")
+            If colItems.Count = 0 Then
+                msg = "<p>ポートは見つかりませんでした。</p>"
+            Else
+                msg = "<table>" & vbCrLf
+                msg = msg & "<tr><th>ポート</th><tr>" & vbCrLf
+                For Each objItem in colItems
+                    msg = msg & "<tr><td>" & Escape(objItem.Name) & "</td></tr>" & vbCrLf
+                Next
+                msg = msg & "</table>"
+            End If
+            document.GetElementByID("list_of_port").innerHTML = msg
+        </script>
+    </body>
+</html>
